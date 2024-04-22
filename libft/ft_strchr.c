@@ -3,30 +3,36 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strchr.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: szerisen <szerisen@student.42.fr>          +#+  +:+       +#+        */
+/*   By: taquino- <taquino-@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/03/21 13:37:46 by szerisen          #+#    #+#             */
-/*   Updated: 2023/04/06 17:46:10 by szerisen         ###   ########.fr       */
+/*   Created: 2023/11/09 12:32:43 by taquino-          #+#    #+#             */
+/*   Updated: 2023/11/09 12:32:43 by taquino-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
 char	*ft_strchr(const char *s, int c)
-/* will return a pointer to the position of first appearance of c in s
-** will return a pointer to NULL if not found */
 {
-	char	a;
-	int		i;
+	int	i;
 
-	if (!s)
-		return (NULL);
-	a = c;
 	i = 0;
-	while (s && s[i] != '\0' && s[i] != a)
+	while (((char *)s)[i] != (char)c)
+	{
+		if (((char *)s)[i] == '\0')
+			return (NULL);
 		i++;
-	if (s[i] == a)
-		return ((char *)(s + i));
-	else
-		return (NULL);
+	}
+	return ((char *)s + i);
 }
+
+/*
+#include <stdio.h>
+int	main(void)
+{
+    const char    *str = "Hello world";
+
+    printf ("%s\n", ft_strchr(str, 'r'));
+    return (0);
+}
+*/

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_putnbr_fd.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: szerisen <szerisen@student.42.fr>          +#+  +:+       +#+        */
+/*   By: taquino- <taquino-@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/01/02 19:49:48 by szerisen          #+#    #+#             */
-/*   Updated: 2023/01/04 19:49:48 by szerisen         ###   ########.fr       */
+/*   Created: 2023/11/07 12:48:30 by taquino-          #+#    #+#             */
+/*   Updated: 2023/11/07 12:48:30 by taquino-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,34 +14,17 @@
 
 void	ft_putnbr_fd(int n, int fd)
 {
-	int	i;
+	unsigned int	number;
 
-	if (n == -2147483648)
-	{
-		write(fd, "-2", 2);
-		n = 147483648;
-	}
+	number = n;
 	if (n < 0)
 	{
-		write(fd, "-", 1);
-		n *= -1;
+		ft_putchar_fd('-', fd);
+		number = n * -1;
 	}
-	if (n > 9)
+	if (number > 9)
 	{
-		ft_putnbr_fd(n / 10, fd);
-		ft_putnbr_fd(n % 10, fd);
+		ft_putnbr_fd(number / 10, fd);
 	}
-	if (n >= 0 && n <= 9)
-	{
-		i = n + 48;
-		write(fd, &i, 1);
-	}
+	ft_putchar_fd(number % 10 + '0', fd);
 }
-
-// int main()
-// {
-//     int n = -2147483648;
-//     ft_putnbr_fd(n, 1);
-// 		putnbr(n, 1);
-//     return (0);
-// }

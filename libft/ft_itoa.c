@@ -3,59 +3,63 @@
 /*                                                        :::      ::::::::   */
 /*   ft_itoa.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: szerisen <szerisen@student.42.fr>          +#+  +:+       +#+        */
+/*   By: taquino- <taquino-@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/01/02 19:45:42 by szerisen          #+#    #+#             */
-/*   Updated: 2023/01/05 19:45:42 by szerisen         ###   ########.fr       */
+/*   Created: 2023/11/07 13:17:15 by taquino-          #+#    #+#             */
+/*   Updated: 2023/11/09 12:30:15 by taquino-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-static int	findsize(int n)
+static size_t	ft_get_sign(int n)
+{
+	if (n < 0)
+	{
+		return (1);
+	}
+	else
+		return (0);
+}
+
+static size_t	ft_get_lenght(size_t n)
 {
 	int	size;
 
 	size = 0;
-	if (n < 0)
+	if (n <= 0)
 		size++;
-	while (n && ++size)
+	while (n != 0)
+	{
 		n = n / 10;
+		size++;
+	}
 	return (size);
 }
 
 char	*ft_itoa(int n)
 {
-	int			size;
-	char		*str;
-	const char	*digits = "0123456789";
+	char			*str;
+	long int		nbr;
+	unsigned int	sign_result;
+	unsigned int	strlen;
 
-	size = 1;
-	if (n != 0)
-		size = findsize(n);
-	str = (char *)malloc(sizeof(char) * (size + 1));
-	if (!str)
-		return (0);
-	str[size] = 0;
-	if (n == 0)
-		str[0] = '0';
-	if (n < 0)
+	sign_result = ft_get_sign(n);
+	nbr = n;
+	if (sign_result == 1)
+		nbr = nbr * -1;
+	strlen = ft_get_lenght(nbr);
+	str = (char *)malloc(sizeof(char) * (strlen + sign_result + 1));
+	if (str == NULL)
+		return (NULL);
+	if (sign_result == 1)
 		str[0] = '-';
-	while (n)
+	str[strlen + sign_result] = '\0';
+	while (strlen > 0)
 	{
-		if (n > 0)
-			str[--size] = digits[n % 10];
-		else
-			str[--size] = digits[n % 10 * -1];
-		n /= 10;
+		str[(strlen + sign_result) - 1] = (nbr % 10) + '0';
+		nbr = nbr / 10;
+		strlen--;
 	}
 	return (str);
 }
-
-// int main()
-// {
-//     printf("%s\n", ft_itoa(543552));
-// 	printf("%s\n", itoa(543552));
-// 	printf("%d\n", findsize(0));
-//     return (0);
-// }

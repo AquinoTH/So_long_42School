@@ -5,74 +5,91 @@
 #                                                     +:+ +:+         +:+      #
 #    By: taquino- <taquino-@student.42sp.org.br>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
-#    Created: 2024/04/11 19:18:25 by taquino-          #+#    #+#              #
-#    Updated: 2024/04/22 12:24:55 by taquino-         ###   ########.fr        #
+#    Created: 2024/04/22 17:49:56 by taquino-          #+#    #+#              #
+#    Updated: 2024/04/22 17:50:29 by taquino-         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
+SRCS_PATH = ./srcs/
+SRCS_PATH_BONUS = ./srcs_bonus/
+OBJS_PATH = ./objs/
+OBJS_PATH_BONUS = ./objs_bonus/
+HEADERS_PATH = ./headers/
+LIBFT_PATH = ./libft/
+FT_PRINTF_PATH = ./ft_printf/
+
+SRC_FILES = so_long.c checkmap.c end_game_utils.c check_valid_path.c read_map.c \
+			check_valid_path_utils.c render.c move.c init_game_utils.c destroy_img.c
+
+SRC_FILES_BONUS = so_long_bonus.c checkmap_bonus.c end_game_utils_bonus.c \
+				check_valid_path_bonus.c move_bonus.c destroy_img_bonus.c \
+				read_map_bonus.c check_valid_path_utils_bonus.c render_bonus.c  \
+				init_game_utils_bonus.c handle_keypress_bonus.c bonus.c
+
+SRCS = $(addprefix $(SRCS_PATH), $(SRC_FILES))
+
+SRCS_BONUS = $(addprefix $(SRCS_PATH_BONUS), $(SRC_FILES_BONUS))
+
+OBJ_FILES = $(patsubst %.c, %.o, $(SRC_FILES))
+
+OBJ_FILES_BONUS = $(patsubst %.c, %.o, $(SRC_FILES_BONUS))
+
+OBJS = $(addprefix $(OBJS_PATH), $(OBJ_FILES))
+
+OBJS_BONUS = $(addprefix $(OBJS_PATH_BONUS), $(OBJ_FILES_BONUS))
+
+LIBFT_A = $(LIBFT_PATH)libft.a
+
+LIBFT_PRINTF_A = $(FT_PRINTF_PATH)libftprintf.a
+
+MKDIR = mkdir -p
+
 NAME = so_long
 
-CC = cc
+NAME_BONUS = so_long_bonus
 
-CFLAGS = -Wall -Wextra -Werror -g
+CC   = cc
 
-MLX_PATH = mlx/
+CFLAGS = -Wall -Wextra -Werror -I $(HEADERS_PATH)
 
-MLX_LIB = $(MLX_PATH)libmlx.a
+MLXFLAGS = -lX11 -lXext -lmlx
 
-MLX_FLAGS = -Lmlx -lmlx -framework OpenGL -framework AppKit
+RM  =  rm -f
 
-LIBFT_PATH = libft/
+all: $(NAME)
 
-LIBFT_LIB = $(LIBFT_PATH)libft.a
+$(LIBFT_A):
+	@cd $(LIBFT_PATH) && $(MAKE)
 
-Y = "\033[33m"
-R = "\033[31m"
-G = "\033[32m"
-B = "\033[34m"
-X = "\033[0m"
-UP = "\033[A"
-CUT = "\033[K"
+$(LIBFT_PRINTF_A):
+	@cd $(FT_PRINTF_PATH) && $(MAKE)
 
-CFILES = \
-		initializer.c\
-		key_hook.c\
-		map.c\
-		moves.c\
-		validate_input.c\
-		put_image.c\
-		so_long.c\
-		winner_message.c\
-		check_path.c\
-		helpers.c\
+$(NAME): $(LIBFT_A) $(LIBFT_PRINTF_A) $(OBJS)
+	$(CC) $(CFLAGS) -o $(NAME) $(OBJS) $(MLXFLAGS) -L $(LIBFT_PATH) -lft -L $(FT_PRINTF_PATH) -lftprintf
 
-OBJECTS = $(CFILES:.c=.o)
+$(NAME_BONUS): $(LIBFT_A) $(LIBFT_PRINTF_A) $(OBJS_BONUS)
+	$(CC) $(CFLAGS) -o $(NAME) $(OBJS_BONUS) $(MLXFLAGS) -L $(LIBFT_PATH) -lft -L $(FT_PRINTF_PATH) -lftprintf
 
-all: subsystems $(NAME)
+$(OBJS_PATH)%.o : $(SRCS_PATH)%.c
+	@$(MKDIR) $(OBJS_PATH)
+	@$(CC) $(CFLAGS) -c $< -o $@
 
-%.o : %.c
-	$(CC) $(CFLAGS) -Imlx -c -o $@ $<
-
-subsystems:
-	@make -C $(MLX_PATH) all
-	@make -C $(LIBFT_PATH) all
-
-$(NAME): $(OBJECTS)
-	$(CC) $(CFLAGS) $(MLX_FLAGS) $(OBJECTS) $(MLX_LIB) $(LIBFT_LIB) -o $(NAME)
+$(OBJS_PATH_BONUS)%.o : $(SRCS_PATH_BONUS)%.c
+	@$(MKDIR) $(OBJS_PATH_BONUS)
+	@$(CC) $(CFLAGS) -c $< -o $@
 
 clean:
-	make -C $(MLX_PATH) clean
-	make -C $(LIBFT_PATH) clean
-	rm -f $(OBJECTS)
+		$(RM) $(OBJS) $(OBJS_BONUS)
+		$(MAKE) clean -C $(LIBFT_PATH)
+		$(MAKE) clean -C $(FT_PRINTF_PATH)
 
 fclean: clean
-	make -C $(MLX_PATH) fclean
-	make -C $(LIBFT_PATH) fclean
-	rm -f $(NAME)
+	    $(RM) $(NAME) $(NAME_BONUS)
+		$(MAKE) fclean -C $(LIBFT_PATH)
+		$(MAKE) fclean -C $(FT_PRINTF_PATH)
 
-re: fclean all
+bonus: $(NAME_BONUS)
 
-norm:
-	norminette libft initializer.c key_hook.c map.c move.c validate_input.c place_images.c main.c so_long.h victory.c helpers.c
+re:   fclean all
 
-.PHONY: all clean fclean re norm
+.PHONY: all clean fclean re bonus
