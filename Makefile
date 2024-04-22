@@ -6,50 +6,73 @@
 #    By: taquino- <taquino-@student.42sp.org.br>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/04/11 19:18:25 by taquino-          #+#    #+#              #
-#    Updated: 2024/04/11 20:08:47 by taquino-         ###   ########.fr        #
+#    Updated: 2024/04/22 12:24:55 by taquino-         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-MINILIBX_PATH	=	Libs/mlx
-MINILIBX		=	$(MINILIBX_PATH)/libmlx.a
+NAME = so_long
 
-SOURCES_FILES	=	so_long.c \
+CC = cc
 
-SOURCES_DIR		=	src
+CFLAGS = -Wall -Wextra -Werror -g
 
-HEADER			=	$(SOURCES_DIR)/so_long.h
+MLX_PATH = mlx/
 
-SOURCES			=	$(addprefix $(SOURCES_DIR)/, $(SOURCES_FILES))
+MLX_LIB = $(MLX_PATH)libmlx.a
 
-OBJECTS			= 	$(SOURCES:.c=.o)
+MLX_FLAGS = -Lmlx -lmlx -framework OpenGL -framework AppKit
 
-NAME			=	so_long
+LIBFT_PATH = libft/
 
-CC				=	clang
-RM				=	rm -f
+LIBFT_LIB = $(LIBFT_PATH)libft.a
 
-CFLAGS			=	-Wall -Wextra -Werror
-MLXFLAGS		=	-L. -lXext -L. -lX11
+Y = "\033[33m"
+R = "\033[31m"
+G = "\033[32m"
+B = "\033[34m"
+X = "\033[0m"
+UP = "\033[A"
+CUT = "\033[K"
 
-.c.o:
-				$(CC) $(CFLAGS) -c $< -o $(<:.c=.o)
+CFILES = \
+		initializer.c\
+		key_hook.c\
+		map.c\
+		moves.c\
+		validate_input.c\
+		put_image.c\
+		so_long.c\
+		winner_message.c\
+		check_path.c\
+		helpers.c\
 
-all:			$(NAME)
+OBJECTS = $(CFILES:.c=.o)
 
-$(NAME):		$(MINILIBX) $(OBJECTS) $(HEADER)
-				$(CC) $(CFLAGS) $(OBJECTS) $(MINILIBX) $(MLXFLAGS) -o $(NAME)
+all: subsystems $(NAME)
 
-$(MINILIBX):
-				$(MAKE) -C $(MINILIBX_PATH)
+%.o : %.c
+	$(CC) $(CFLAGS) -Imlx -c -o $@ $<
+
+subsystems:
+	@make -C $(MLX_PATH) all
+	@make -C $(LIBFT_PATH) all
+
+$(NAME): $(OBJECTS)
+	$(CC) $(CFLAGS) $(MLX_FLAGS) $(OBJECTS) $(MLX_LIB) $(LIBFT_LIB) -o $(NAME)
 
 clean:
-				$(MAKE) -C $(MINILIBX_PATH) clean
-				$(RM) $(OBJECTS)
+	make -C $(MLX_PATH) clean
+	make -C $(LIBFT_PATH) clean
+	rm -f $(OBJECTS)
 
-fclean:			clean
-				$(MAKE) -C fclean
-				$(RM) $(NAME)
+fclean: clean
+	make -C $(MLX_PATH) fclean
+	make -C $(LIBFT_PATH) fclean
+	rm -f $(NAME)
 
-re:				fclean all
+re: fclean all
 
-.PHONY:			all clean fclean re minilibx
+norm:
+	norminette libft initializer.c key_hook.c map.c move.c validate_input.c place_images.c main.c so_long.h victory.c helpers.c
+
+.PHONY: all clean fclean re norm

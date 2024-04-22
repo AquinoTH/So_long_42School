@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_count_lines.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: szerisen <szerisen@student.42.fr>          +#+  +:+       +#+        */
+/*   By: taquino- <taquino-@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/21 15:25:07 by szerisen          #+#    #+#             */
-/*   Updated: 2023/04/21 12:47:39 by szerisen         ###   ########.fr       */
+/*   Updated: 2024/04/22 12:20:28 by taquino-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,9 +23,7 @@ int	ft_count_lines(int fd, int x, int img_w)
 {
 	char	*line;
 	int		linecount;
-	int		i;
 
-	i = 0;
 	linecount = 1;
 	while (1)
 	{
