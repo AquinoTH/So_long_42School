@@ -6,11 +6,9 @@
 /*   By: taquino- <taquino-@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/22 17:49:40 by taquino-          #+#    #+#             */
-/*   Updated: 2024/04/22 17:49:41 by taquino-         ###   ########.fr       */
+/*   Updated: 2024/04/29 17:14:56 by taquino-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
-
 
 #include "so_long_bonus.h"
 
@@ -24,13 +22,13 @@ int	main(int argc, char *argv[])
 	if (ft_read_map(&game) == -1)
 		return (ft_printf("Unable to open the informed map file. "
 				"Please check if informed path is correct.\n"));
-	if (ft_checkmap(&game) < 0)
+	if (ft_check_map(&game) < 0)
 		return (ft_end_game(game, 0));
 	if (initializing_mlx(&game) < 0)
 		return (ft_end_game(game, 0));
-	generate_img(&game);
-	generate_img_coin(&game);
-	generate_img_enemy(&game);
+	render_img(&game);
+	render_img_coin(&game);
+	render_img_enemy(&game);
 	initialize_game_variables(&game);
 	if (open_window(&game) != 0)
 		ft_end_game(game, 2);

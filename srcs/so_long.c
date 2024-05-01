@@ -6,11 +6,9 @@
 /*   By: taquino- <taquino-@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/22 17:47:59 by taquino-          #+#    #+#             */
-/*   Updated: 2024/04/22 17:48:10 by taquino-         ###   ########.fr       */
+/*   Updated: 2024/04/29 17:03:16 by taquino-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
-
 
 #include "so_long.h"
 
@@ -24,7 +22,7 @@ int	main(int argc, char *argv[])
 	if (ft_read_map(&game) == -1)
 		return (ft_printf("Unable to open the informed map file. "
 				"Please check if informed path is correct.\n"));
-	if (ft_checkmap(&game) < 0)
+	if (ft_check_map(&game) < 0)
 		return (ft_end_game(game, 0));
 	game.mlx_ptr = mlx_init();
 	if (!game.mlx_ptr)
@@ -32,8 +30,8 @@ int	main(int argc, char *argv[])
 		ft_printf("Error while initializing mlx.\n");
 		return (ft_end_game(game, 0));
 	}
-	generate_img(&game);
-	generate_img_coin(&game);
+	render_img(&game);
+	render_img_coin(&game);
 	initialize_game_variables(&game);
 	if (open_window(&game) != 0)
 		ft_end_game(game, 2);

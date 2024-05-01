@@ -6,15 +6,13 @@
 /*   By: taquino- <taquino-@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/22 17:47:51 by taquino-          #+#    #+#             */
-/*   Updated: 2024/04/22 17:47:52 by taquino-         ###   ########.fr       */
+/*   Updated: 2024/04/29 19:15:12 by taquino-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-
-
 #include "so_long.h"
 
-int	generate_img(t_game	*game)
+int	render_img(t_game	*game)
 {
 	game->map.grass_img = mlx_xpm_file_to_image(game->mlx_ptr,
 			"./images/grass.xpm", &game->map.x_tile, &game->map.y_tile);
@@ -43,7 +41,7 @@ int	generate_img(t_game	*game)
 	return (0);
 }
 
-int	generate_img_coin(t_game *game)
+int	render_img_coin(t_game *game)
 {
 	int		i;
 	char	*img_path;

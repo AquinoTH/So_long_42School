@@ -6,36 +6,34 @@
 /*   By: taquino- <taquino-@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/22 17:47:43 by taquino-          #+#    #+#             */
-/*   Updated: 2024/04/22 17:47:44 by taquino-         ###   ########.fr       */
+/*   Updated: 2024/04/25 19:38:56 by taquino-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-
-
 #include "so_long.h"
 
-int	ft_maplen(char *mapfile)
+int	ft_map_length(char *map_file)
 {
-	int		maplen;
-	int		read_result;
+	int		map_length;
+	int		bytes_readed;
 	char	buf;
 	int		fd;
 
-	fd = open(mapfile, O_RDONLY);
+	fd = open(map_file, O_RDONLY);
 	if (fd < 0)
 		return (-1);
-	maplen = 0;
-	read_result = 1;
-	while (read_result != 0)
+	map_length = 0;
+	bytes_readed = 1;
+	while (bytes_readed != 0)
 	{
-		read_result = read(fd, &buf, 1);
-		if (read_result == -1)
+		bytes_readed = read(fd, &buf, 1);
+		if (bytes_readed == -1)
 			return (0);
-		maplen++;
+		map_length++;
 	}
 	close(fd);
-	maplen--;
-	return (maplen);
+	map_length--;
+	return (map_length);
 }
 
 void	ft_set_map_variables(t_game *game)
@@ -50,29 +48,29 @@ void	ft_set_map_variables(t_game *game)
 
 int	ft_read_map(t_game *game)
 {
-	int		read_result;
-	char	*maparray;
-	int		maplen;
+	int		bytes_readed;
+	char	*map_array;
+	int		map_length;
 	int		fd;
 
 	ft_set_map_variables(game);
-	maplen = ft_maplen(game->map.mfile);
-	if (maplen == -1)
+	map_length = ft_map_length(game->map.mfile);
+	if (map_length == -1)
 		return (-1);
 	fd = open(game->map.mfile, O_RDONLY);
-	maparray = malloc((maplen + 1) * sizeof(char));
-	if (!maparray)
+	map_array = malloc((map_length + 1) * sizeof(char));
+	if (!map_array)
 		return (0);
-	read_result = 1;
-	read_result = read(fd, maparray, maplen);
-	if (read_result == -1)
+	bytes_readed = 1;
+	bytes_readed = read(fd, map_array, map_length);
+	if (bytes_readed == -1)
 	{
-		free(maparray);
+		free(map_array);
 		return (-1);
 	}
-	maparray[maplen] = '\0';
-	game->map.mgrid = ft_split(maparray, '\n');
+	map_array[map_length] = '\0';
+	game->map.mgrid = ft_split(map_array, '\n');
 	close(fd);
-	free(maparray);
+	free(map_array);
 	return (0);
 }

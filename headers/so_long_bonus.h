@@ -6,11 +6,9 @@
 /*   By: taquino- <taquino-@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/22 17:44:54 by taquino-          #+#    #+#             */
-/*   Updated: 2024/04/22 17:44:55 by taquino-         ###   ########.fr       */
+/*   Updated: 2024/04/29 17:14:39 by taquino-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
-
 
 #ifndef SO_LONG_BONUS_H
 # define SO_LONG_BONUS_H
@@ -88,79 +86,42 @@ typedef struct s_game
 }	t_game;
 
 void	**ft_free(void **array, int count);
-
 int		ft_check_valid_path(t_game	*game);
-
-int		ft_checkmap(t_game *game);
-
+int		ft_check_map(t_game *game);
 int		ft_is_surrounded(t_game *game);
-
 int		ft_is_rectangular(t_game *game);
-
 int		ft_charvalidation(t_game	*game);
-
 void	ft_set_map_variables(t_game *game);
-
 int		ft_read_map(t_game *game);
-
 int		ft_maplen(char *mapfile);
-
 void	move_backwards(t_game *game, int *i, int *j, int parent);
-
 void	ft_dfs_walls(t_game *game);
-
 int		ft_dfs_setup(t_game *game);
-
 int		ft_end_game(t_game game, int breakpoint);
-
 int		ft_free_dfs(t_game *game);
-
 int		ft_move_forward(t_game *game, int *i, int *j);
-
 int		stop(t_game *game);
-
 int		handle_keypress(int keysym, t_game *game);
-
 void	img_pix_put(t_img *img, int x, int y, int color);
-
 int		render(t_game *game);
-
-int		generate_img(t_game	*game);
-
-int		generate_img_coin(t_game *game);
-
-int		generate_img_enemy(t_game *game);
-
+int		render_img(t_game	*game);
+int		render_img_coin(t_game *game);
+int		render_img_enemy(t_game *game);
 void	ft_aux_put_image(t_game *game, int i, int j);
-
 void	ft_free_img(t_game *game);
-
 void	ft_destroy_img(t_game *game);
-
 int		ft_input_validation(int argc, char *argv);
-
 void	ft_freegrid(t_game *game);
-
 int		ft_close_window(t_game *game);
-
 void	ft_move_down(t_game *game);
-
 void	ft_move_up(t_game *game);
-
 void	ft_move_right(t_game *game);
-
 void	ft_move_left(t_game *game);
-
 void	render_player(t_game *game);
-
 void	ft_destroy_img_coin(t_game *game);
-
 void	initialize_game_variables(t_game *game);
-
 int		open_window(t_game *game);
-
 int		initializing_mlx(t_game *game);
-
 void	move_conditionals(t_game *game, char tile);
 
 #endif
